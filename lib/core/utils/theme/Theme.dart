@@ -7,6 +7,7 @@ class GAppTheme {
     fontFamily: 'ReadexPro',
     brightness: Brightness.light,
     primaryColor: Color(0xFFFFFFFF),
+    secondaryHeaderColor: Color(0xFFF0F0F0),
     scaffoldBackgroundColor: Color(0xFFFFFFFF),
     textTheme: GTextTheme.lightTextTheme
 
@@ -17,6 +18,7 @@ class GAppTheme {
     fontFamily: 'ReadexPro',
     brightness: Brightness.dark,
     primaryColor: Color(0xFFFFFFFF),
+    secondaryHeaderColor: Color(0xFF1E1E1E),
     scaffoldBackgroundColor: Color(0xFF121212),
     textTheme: GTextTheme.darkTextTheme
 

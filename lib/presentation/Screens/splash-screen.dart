@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 5), () {
-      print("hello");
+     
       Get.off(() => OnboardingScreen());
     });
   }

@@ -80,7 +80,8 @@ class OnboardingScreen extends StatelessWidget {
                   onDotClicked: controller.dotNavigation,
                   count: 3,
                   effect: ExpandingDotsEffect(
-                      activeDotColor: Appcolor.blue, dotHeight: 10))),
+                      activeDotColor: Appcolor.blue, dotHeight: 10)
+                      )),
           Positioned(
               bottom: 25,
               right: 8,

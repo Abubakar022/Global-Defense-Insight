@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:global_defense_insight/core/utils/theme/Theme.dart';
+import 'package:global_defense_insight/presentation/Screens/home-Screen.dart';
 import 'package:global_defense_insight/presentation/Screens/splash-screen.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: GAppTheme.lightTheme,
       darkTheme: GAppTheme.darkTheme,
-      home: const SplashScreen(),
+      home: SplashScreen (),
     );
   }
 }

@@ -19,7 +19,12 @@ class GTextTheme {
         fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black),
     titleSmall: TextStyle().copyWith(
         fontSize: 18, fontWeight: FontWeight.w600, color: Appcolor.blue),
+         titleMedium: TextStyle().copyWith(
+        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
   );
+
+
+
   static TextTheme darkTextTheme = TextTheme(
     headlineLarge: TextStyle().copyWith(
         fontSize: 32,
@@ -34,5 +39,8 @@ class GTextTheme {
         fontSize: 15, fontWeight: FontWeight.w400, color: Colors.white),
     titleSmall: TextStyle().copyWith(
         fontSize: 18, fontWeight: FontWeight.w600, color: Appcolor.blue),
+        
+        titleMedium: TextStyle().copyWith(
+        fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
   );
 }

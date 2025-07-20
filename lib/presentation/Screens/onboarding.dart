@@ -74,14 +74,13 @@ class OnboardingScreen extends StatelessWidget {
           ),
           Positioned(
               bottom: 40,
-              left: 8,
+              left: 15,
               child: SmoothPageIndicator(
                   controller: controller.pageController,
                   onDotClicked: controller.dotNavigation,
                   count: 3,
                   effect: ExpandingDotsEffect(
-                      activeDotColor: Appcolor.blue, dotHeight: 10)
-                      )),
+                      activeDotColor: Appcolor.blue, dotHeight: 10))),
           Positioned(
               bottom: 25,
               right: 8,
@@ -123,7 +122,7 @@ class onBoardingPageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(10),
       color: onboardingColor,
       width: double.infinity,
       height: double.infinity,

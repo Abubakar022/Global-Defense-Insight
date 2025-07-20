@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.1.0
   smooth_page_indicator: ^1.2.1
   iconsax: ^0.0.8
+  flutter_keyboard_visibility: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -60,7 +61,7 @@ flutter:
 
   assets:
     - assets/animations/
-
+    - assets/images/
   fonts:
     - family: ReadexPro
       fonts:

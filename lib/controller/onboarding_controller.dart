@@ -21,18 +21,16 @@ class OnboardingController extends GetxController {
   }
 
   void nextPage() {
-    if (currentPageIndex.value > 2) {
-      Get.offAll(HomeScreen());
+    if (currentPageIndex.value >= 2) {
+      // Remove all previous routes to prevent going back
+      Get.offAll(() => HomeScreen());
     } else {
       var page = currentPageIndex.value + 1;
-      // pageController.animateToPage(page,
-      //     duration: const Duration(milliseconds: 500), curve: Curves.linear);
-   
-    pageController.jumpToPage(page); }
+      pageController.jumpToPage(page);
+    }
   }
 
   void skipPage() {
-   
-   Get.to(HomeScreen());
+    Get.offAll(() => HomeScreen());
   }
 }

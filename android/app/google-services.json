@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "716950428247",
+    "project_id": "global-defense-insight",
+    "storage_bucket": "global-defense-insight.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716950428247:android:eb4ce57ee3e2b87ae0a112",
+        "android_client_info": {
+          "package_name": "com.example.globaldefenseinsight"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpp0KfGNwmBL3QYiw4iuxigxigacaF-Bo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

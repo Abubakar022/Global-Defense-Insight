@@ -1,4 +1,4 @@
-package com.example.global_defense_insight
+package com.example.globaldefenseinsight
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,11 +1,16 @@
-
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:global_defense_insight/common/Widget/cutom_Drawer.dart';
 import 'package:global_defense_insight/controller/news_controller.dart';
 import 'package:global_defense_insight/core/AppConstant/appContant.dart';
 import 'package:global_defense_insight/core/utils/Helper/Gspace.dart';
 import 'package:global_defense_insight/core/utils/theme/text_theme.dart';
+import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -63,9 +68,56 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      bottomNavigationBar: Padding(
+  padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12), // margin from edges
+  child: Container(
+    decoration: BoxDecoration(
+      color: Theme.of(context).secondaryHeaderColor,
+      borderRadius: BorderRadius.circular(30), // fully rounded
+      // boxShadow: [
+      //   BoxShadow(
+      //     color: Colors.black26,
+      //     blurRadius: 8,
+      //     offset: Offset(0, 4),
+      //   ),
+      // ],
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: GNav(
+        backgroundColor: Colors.transparent, // transparent because Container has color
+        color: isDark ? Colors.white : Colors.black,
+        activeColor: isDark ? Colors.black : Colors.white,
+        tabBackgroundColor: Appcolor.blue,
+        gap: 8,
+        padding: EdgeInsets.all(16),
+        tabs: [
+          GButton(icon: Icons.home_rounded, text: "Home"),
+          GButton(icon: Icons.find_in_page, text: "Discover"),
+          GButton(icon: Icons.trending_up, text: "Trending"),
+        ],
+      ),
+    ),
+  ),
+),
+
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actions: [
+          GestureDetector(
+            onTap: () {
+              GoogleSignIn googleSignIn = GoogleSignIn();
+              googleSignIn.signOut();
+              Get.offAll(SignIn());
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(Icons.logout_rounded),
+            ),
+          )
+        ],
       ),
+      drawer: DrawerWideget(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(8),
@@ -78,12 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Top Stories",
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "View All",
-                        style: textTheme.titleSmall,
-                      )),
+                //   ElevatedButton(
+                //       onPressed: () {},
+                //       child: Text(
+                //         "View All",
+                //         style: textTheme.titleSmall,
+                //       )
+                //       ),
                 ],
               ),
               Gspace.spaceVertical(8),
@@ -92,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Center(child: CircularProgressIndicator());
                 }
                 return Container(
-                  width: width * 0.9,
+                  width: double.infinity,
                   height: height * 0.35,
                   child: Stack(
                     children: [
@@ -114,19 +167,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Positioned(
                                   left: 20,
                                   top: 20,
-                                  child: Container(
-                                    width: 70,
-                                    height: 30,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: Appcolor.blue,
-                                    ),
-                                    child: Text(
-                                      article.category,
-                                      style: textTheme.headlineMedium,
-                                    ),
-                                  ),
+                                  child:    Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Appcolor.blue,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            article.category,
+                            style:  textTheme.titleMedium
+                          ),
+                        ),
                                 ),
                                 Positioned(
                                   bottom: 55,

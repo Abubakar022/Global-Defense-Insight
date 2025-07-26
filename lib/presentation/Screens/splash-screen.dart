@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_defense_insight/core/AppConstant/appContant.dart';
+import 'package:global_defense_insight/presentation/Screens/home-Screen.dart';
 import 'package:global_defense_insight/presentation/Screens/onboarding.dart';
+import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -23,6 +26,27 @@ class _SplashScreenState extends State<SplashScreen> {
       Get.off(() => OnboardingScreen());
     });
   }
+
+
+Future<void> checkFirstTimeAndNavigate() async {
+  final prefs = await SharedPreferences.getInstance();
+  final isFirstTime = prefs.getBool('isFirstTime') ?? true;
+
+  await Future.delayed(Duration(seconds: 3));
+
+  if (isFirstTime) {
+    await prefs.setBool('isFirstTime', false);
+    Get.off(() => OnboardingScreen());
+  } else {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null && user.emailVerified) {
+      Get.off(() => HomeScreen());
+    } else {
+      Get.off(() => SignIn());
+    }
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {

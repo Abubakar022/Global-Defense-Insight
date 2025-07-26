@@ -13,6 +13,7 @@ class GAppTheme {
     scaffoldBackgroundColor: Color(0xFFFFFFFF),
     textTheme: GTextTheme.lightTextTheme,
     inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: TextStyle(color: Appcolor.blue),
       border: OutlineInputBorder(),
       filled: true,
       fillColor: Colors.grey.shade200,
@@ -35,6 +36,7 @@ class GAppTheme {
     scaffoldBackgroundColor: Color(0xFF121212),
     textTheme: GTextTheme.darkTextTheme,
     inputDecorationTheme: InputDecorationTheme(
+      floatingLabelStyle: TextStyle(color: Appcolor.blue),
       border: OutlineInputBorder(),
       filled: true,
       fillColor: Appcolor.inputBlack,

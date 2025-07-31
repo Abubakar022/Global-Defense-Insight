@@ -119,7 +119,7 @@ class _SignInState extends State<SignIn> {
                                 onTap: () {
                                   Get.to(ResetPassword());
                                 },
-                                child: Text("Forgotten Password?",
+                                child: Text("Forgot Password?",
                                     style: textTheme.headlineLarge!
                                         .copyWith(fontSize: 17)),
                               ),

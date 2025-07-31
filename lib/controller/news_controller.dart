@@ -4,6 +4,8 @@ import 'package:global_defense_insight/model/news_article.dart';
 class NewsController extends GetxController {
   RxList<NewsArticle> topStories = <NewsArticle>[].obs;
 
+  get categoryMap => null;
+
   @override
   void onInit() {
     super.onInit();

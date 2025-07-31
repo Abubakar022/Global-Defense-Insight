@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:global_defense_insight/common/app_text.dart';
+import 'package:global_defense_insight/core/AppConstant/app_text.dart';
 import 'package:global_defense_insight/core/AppConstant/appContant.dart';
 import 'package:global_defense_insight/core/utils/theme/text_theme.dart';
 import 'package:google_fonts/google_fonts.dart';

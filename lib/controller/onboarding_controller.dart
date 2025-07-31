@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global_defense_insight/presentation/Screens/home-Screen.dart';
+import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 
 class OnboardingController extends GetxController {
   static OnboardingController get instance => Get.find();
@@ -23,7 +24,7 @@ class OnboardingController extends GetxController {
   void nextPage() {
     if (currentPageIndex.value >= 2) {
       // Remove all previous routes to prevent going back
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => SignIn());
     } else {
       var page = currentPageIndex.value + 1;
       pageController.jumpToPage(page);
@@ -31,6 +32,6 @@ class OnboardingController extends GetxController {
   }
 
   void skipPage() {
-    Get.offAll(() => HomeScreen());
+    Get.offAll(() => SignIn());
   }
 }

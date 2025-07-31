@@ -8,6 +8,7 @@ import 'package:global_defense_insight/core/utils/theme/text_theme.dart';
 import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:iconsax/iconsax.dart';
 
 class DrawerWideget extends StatefulWidget {
   const DrawerWideget({super.key});
@@ -22,107 +23,92 @@ class _DrawerWidegetState extends State<DrawerWideget> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textTheme =
         isDark ? GTextTheme.darkTextTheme : GTextTheme.lightTextTheme;
+
     return Padding(
       padding: EdgeInsets.only(top: Get.height / 25),
       child: Drawer(
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(20),
-                bottomRight: Radius.circular(20))),
-        child: Wrap(
-          runSpacing: 10,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+        ),
+        child: Column(
           children: [
+            // 👤 User Info
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: ListTile(
                 titleAlignment: ListTileTitleAlignment.center,
                 title: Text(
-                  "Abu Bakar",
-                  style: textTheme.bodyLarge,
+                  "Hello,",
+                  style: textTheme.headlineLarge!.copyWith(fontSize: 18),
                 ),
                 subtitle: Text(
-                  "Version 1.0.1",
+                  "Umair Aslam",
                   style: textTheme.bodyLarge,
                 ),
                 leading: CircleAvatar(
                   radius: 22,
                   backgroundColor: Appcolor.blue,
-                  child: Text("A"),
+                  child: Text(
+                    "U",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
+
             Divider(
               indent: 10,
               endIndent: 10,
               thickness: 1.5,
               color: Colors.grey,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  title: Text(
-                    "Home",
-                    style: textTheme.bodyLarge,
-                  ),
-                  leading: Icon(Icons.home)),
+
+            // Menu Items
+            ListTile(
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Text("About Us", style: textTheme.bodyLarge),
+              leading: Icon(Iconsax.people,
+                  color: isDark ? Colors.white : Colors.black),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  title: Text(
-                    "Product",
-                    style: textTheme.bodyLarge,
-                  ),
-                  leading: Icon(Icons.production_quantity_limits)),
+            ListTile(
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Text("Contact Us", style: textTheme.bodyLarge),
+              leading: Icon(Icons.contact_support_outlined,
+                  color: isDark ? Colors.white : Colors.black),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  title: Text(
-                    "Order",
-                    style: textTheme.bodyLarge,
-                  ),
-                  leading: Icon(Icons.shopping_bag)),
+            ListTile(
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Text("Advertise With Us", style: textTheme.bodyLarge),
+              leading: Icon(Icons.campaign,
+                  color: isDark ? Colors.white : Colors.black),
             ),
+
+            Spacer(), // Push logout to bottom
+
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  minimumSize: Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  await GoogleSignIn().signOut();
+                  Get.offAll(() => SignIn());
+                },
+                icon: Icon(Icons.logout, color: Colors.white),
+                label: Text(
+                  "Sign Out",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              child: ListTile(
-                  titleAlignment: ListTileTitleAlignment.center,
-                  title: Text(
-                    "Contact",
-                    style: textTheme.bodyLarge,
-                  ),
-                  leading: Icon(Icons.contact_support)),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: ListTile(
-                  onTap: () {
-                    final FirebaseAuth _auth = FirebaseAuth.instance;
-                    _auth.signOut();
-                    GoogleSignIn variable = GoogleSignIn();
-                    variable.signOut();
-                    Get.offAll(() => SignIn());
-                  },
-                  titleAlignment: ListTileTitleAlignment.center,
-                  title: Text(
-                    "Logout",
-                    style: textTheme.bodyLarge,
-                  ),
-                  leading: Icon(Icons.logout)),
             ),
           ],
         ),

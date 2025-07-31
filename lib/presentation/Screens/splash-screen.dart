@@ -10,6 +10,7 @@ import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -19,34 +20,30 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () {
-     
-      Get.off(() => OnboardingScreen());
-    });
+    checkFirstTimeAndNavigate(); // Only use this
   }
 
+  Future<void> checkFirstTimeAndNavigate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isFirstTime = prefs.getBool('isFirstTime') ?? true;
 
-Future<void> checkFirstTimeAndNavigate() async {
-  final prefs = await SharedPreferences.getInstance();
-  final isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    await Future.delayed(Duration(seconds: 3)); // Optional splash delay
 
-  await Future.delayed(Duration(seconds: 3));
-
-  if (isFirstTime) {
-    await prefs.setBool('isFirstTime', false);
-    Get.off(() => OnboardingScreen());
-  } else {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null && user.emailVerified) {
-      Get.off(() => HomeScreen());
+    if (isFirstTime) {
+      await prefs.setBool('isFirstTime', false);
+      Get.off(() => OnboardingScreen());
     } else {
-      Get.off(() => SignIn());
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null && user.emailVerified) {
+        Get.off(() => HomeScreen());
+      } else {
+        Get.off(() => SignIn());
+      }
     }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +65,10 @@ Future<void> checkFirstTimeAndNavigate() async {
             SizedBox(height: height * 0.1),
             Expanded(
               child: SizedBox(
-                child: Text(
-                  "Global Defense \n Insight ",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.permanentMarker(
-                      fontSize: width * 0.12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  width: width * 0.8,
+                )
               ),
             ),
             Container(

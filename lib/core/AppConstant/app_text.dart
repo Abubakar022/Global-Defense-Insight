@@ -12,3 +12,5 @@ class GonBoardingText {
   static String onboardingDescription3 =
       "Driven by innovation and accountability, we craft impactful stories and strategic solutions that help your brand grow";
 }
+
+//https://defensetalks.com/wp-json/wp/v2/posts

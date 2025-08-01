@@ -7,6 +7,7 @@ import 'package:global_defense_insight/model/post_Model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
 import 'package:global_defense_insight/controller/news_controller.dart';
+import 'package:html_unescape/html_unescape.dart';
 
 class NewsDetailScreen extends StatelessWidget {
   final PostModel post;
@@ -24,9 +25,12 @@ class NewsDetailScreen extends StatelessWidget {
 // Get category map
     final categoryId = post.categories.isNotEmpty ? post.categories.first : 0;
     final categoryName = postController.categoryMap[categoryId] ?? "News";
+    final unescape = HtmlUnescape();
+     String decodedDescription = unescape.convert(post.content ?? '');
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -128,7 +132,7 @@ class NewsDetailScreen extends StatelessWidget {
                   ),
                   Gspace.spaceVertical(10),
                   Text(
-                    post.content ?? "No description available.",
+                    decodedDescription ?? "No description available.",
                     style: textTheme.headlineLarge!
                         .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
                   ),

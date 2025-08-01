@@ -13,10 +13,7 @@ import 'package:global_defense_insight/model/post_Model.dart';
 import 'package:global_defense_insight/presentation/Screens/all_News.dart';
 import 'package:global_defense_insight/presentation/Screens/discover_Screen.dart';
 import 'package:global_defense_insight/presentation/Screens/news_detail_screen.dart';
-import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,84 +25,40 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   PostController postController = Get.put(PostController());
- 
   final PageController _pageController = PageController();
   var postList = <PostModel>[].obs;
-
   Timer? _timer;
   int _currentPage = 0;
-
-  int _selectedIndex = 0; // ✅ Track selected tab
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _startAutoScroll();
-    _waitForImagesThenStartAutoScroll();
+ 
   }
 
-void _waitForImagesThenStartAutoScroll() async {
-  // Small wait to ensure PostController has data
-  await Future.delayed(Duration(milliseconds: 500));
 
-  final topPosts = postController.postList.take(4).toList();
-
-  List<Future<void>> futures = [];
-
-  for (var post in topPosts) {
-    final imageUrl = post.imageUrl ?? '';
-    if (imageUrl.isEmpty) continue;
-
-    final image = NetworkImage(imageUrl);
-    final completer = Completer<void>();
-
-    final stream = image.resolve(ImageConfiguration.empty);
-    final listener = ImageStreamListener(
-      (ImageInfo image, bool synchronousCall) {
-        completer.complete();
-      },
-      onError: (dynamic error, StackTrace? stackTrace) {
-        completer.complete(); // Still complete to prevent blocking
-      },
-    );
-
-    stream.addListener(listener);
-    futures.add(completer.future);
-
-    // Optional cleanup
-    completer.future.whenComplete(() {
-      stream.removeListener(listener);
+  void _startAutoScroll() {
+    _timer = Timer.periodic(Duration(seconds: 4), (_) {
+      final topCount = postController.postList.length >= 4
+          ? 4
+          : postController.postList.length;
+      if (topCount > 0 && _pageController.hasClients) {
+        _currentPage++;
+        if (_currentPage >= topCount) {
+          _currentPage = 0;
+          _pageController.jumpToPage(0);
+        } else {
+          _pageController.animateToPage(
+            _currentPage,
+            duration: Duration(milliseconds: 600),
+            curve: Curves.easeInOut,
+          );
+        }
+      }
     });
   }
-
-  await Future.wait(futures);
-
-  // Start auto-scroll only after all 4 images are loaded
-  _startAutoScroll();
-}
-
-void _startAutoScroll() {
-  _timer = Timer.periodic(Duration(seconds: 4), (_) {
-    final topCount = postController.postList.length >= 4
-        ? 4
-        : postController.postList.length;
-
-    if (topCount > 0 && _pageController.hasClients) {
-      _currentPage++;
-      if (_currentPage >= topCount) {
-        _currentPage = 0;
-        _pageController.jumpToPage(0); // Jump without animation
-      } else {
-        _pageController.animateToPage(
-          _currentPage,
-          duration: Duration(milliseconds: 600),
-          curve: Curves.easeInOut,
-        );
-      }
-    }
-  });
-}
-
 
   @override
   void dispose() {
@@ -116,68 +69,51 @@ void _startAutoScroll() {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var width = size.width;
-    var height = size.height;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textTheme =
-        isDark ? GTextTheme.darkTextTheme : GTextTheme.lightTextTheme;
-
-    /// ✅ List of pages to show on bottom nav tap
+    final textTheme = isDark
+        ? GTextTheme.darkTextTheme
+        : GTextTheme.lightTextTheme;
     final List<Widget> pages = [
       home_Screen(
-        // 👈 your existing home layout
-        
         postController: postController,
-        height: height,
+        height: MediaQuery.of(context).size.height,
         pageController: _pageController,
         textTheme: textTheme,
-        width: width,
+        width: MediaQuery.of(context).size.width,
         postLength: postList.length,
       ),
-      DiscoverScreen(), // your existing screen
-      AllNews(), // your existing screen
+      DiscoverScreen(),
+      AllNews(),
     ];
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      drawer: DrawerWideget(),
-
-      // ✅ Switch content based on tab
       body: pages[_selectedIndex],
-
-      // ✅ Bottom Navigation Bar
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 12, left: 12, right: 12),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).secondaryHeaderColor,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: GNav(
-              backgroundColor: Colors.transparent,
-              color: isDark ? Colors.white : Colors.black,
-              activeColor: isDark ? Colors.black : Colors.white,
-              tabBackgroundColor: Appcolor.blue,
-              gap: 8,
-              padding: EdgeInsets.all(16),
-              selectedIndex: _selectedIndex, // ✅ this line
-              onTabChange: (index) {
-                setState(() {
-                  _selectedIndex = index; // ✅ update index when tab is changed
-                });
-              },
-              tabs: [
-                GButton(icon: Icons.home_rounded, text: "Home"),
-                GButton(icon: Icons.find_in_page, text: "Discover"),
-                GButton(icon: Icons.trending_up, text: "Trending"),
-              ],
-            ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).secondaryHeaderColor,
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          child: GNav(
+            backgroundColor: Colors.transparent,
+            color: isDark ? Colors.white : Colors.black,
+            activeColor: isDark ? Colors.black : Colors.white,
+            tabBackgroundColor: Appcolor.blue,
+            gap: 8,
+            padding: EdgeInsets.all(16),
+            selectedIndex: _selectedIndex,
+            onTabChange: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+            tabs: const [
+              GButton(icon: Icons.home_rounded, text: "Home"),
+              GButton(icon: Icons.find_in_page, text: "Discover"),
+              GButton(icon: Icons.trending_up, text: "All News"),
+            ],
           ),
         ),
       ),
@@ -188,7 +124,6 @@ void _startAutoScroll() {
 class home_Screen extends StatelessWidget {
   const home_Screen({
     super.key,
-    
     required this.postController,
     required this.height,
     required PageController pageController,
@@ -197,7 +132,6 @@ class home_Screen extends StatelessWidget {
     required this.postLength,
   }) : _pageController = pageController;
 
- 
   final PostController postController;
   final double height;
   final PageController _pageController;
@@ -207,20 +141,18 @@ class home_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Scaffold(
+       appBar: AppBar(
+        title: Text("Top Stories", style: textTheme.headlineLarge),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      drawer: DrawerWideget(),
+    body:  SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Top Stories",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              ],
-            ),
+           
             Gspace.spaceVertical(8),
             Obx(() {
               final topStories = postController.topStories;
@@ -303,8 +235,8 @@ class home_Screen extends StatelessWidget {
                                                     .copyWith(
                                                   decoration:
                                                       TextDecoration.underline,
-                                                  decorationColor: Colors.white
-                                              , // 🔵 Blue underline
+                                                  decorationColor: Colors
+                                                      .white, // 🔵 Blue underline
                                                   decorationThickness:
                                                       1.5, // (Optional) thickness of underline
                                                 ),
@@ -355,48 +287,47 @@ class home_Screen extends StatelessWidget {
                         children: [
                           Text("Latest News", style: textTheme.headlineLarge),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.to(AllNews());
+                            },
                             child:
                                 Text("View All", style: textTheme.titleSmall),
                           )
                         ],
                       ),
                       Gspace.spaceVertical(10),
-                     
-                        ListView.builder(
-                          shrinkWrap: true,
-                          //physics: BouncingScrollPhysics(),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: latestNews.length,
-                          itemBuilder: (context, index) {
-                            final post = latestNews[index];
-                            final categoryId = post.categories.isNotEmpty
-                                ? post.categories.first
-                                : 0;
-                            final categoryName =
-                                postController.categoryMap[categoryId] ?? 'News';
-                            return GestureDetector(
-                              onTap: () =>
-                                  Get.to(() => NewsDetailScreen(post: post)),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: PostCardWidget(
-                                  title: post.title ?? 'Failed to load Title',
-                                  imagePath: post.imageUrl ?? '',
-                                  date: post.formattedDate,
-                                  category: categoryName,
-                                ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        //physics: BouncingScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: latestNews.length,
+                        itemBuilder: (context, index) {
+                          final post = latestNews[index];
+                          final categoryId = post.categories.isNotEmpty
+                              ? post.categories.first
+                              : 0;
+                          final categoryName =
+                              postController.categoryMap[categoryId] ?? 'News';
+                          return GestureDetector(
+                            onTap: () =>
+                                Get.to(() => NewsDetailScreen(post: post)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: PostCardWidget(
+                                title: post.title ?? 'Failed to load Title',
+                                imagePath: post.imageUrl ?? '',
+                                date: post.formattedDate,
+                                category: categoryName,
                               ),
-                            );
-                          },
-                        ),
-                      
+                            ),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
               );
             }),
-           
 
             // PostCardWidget(
             //   imagePath: 'assets/animations/lockhead.jpeg',
@@ -408,6 +339,7 @@ class home_Screen extends StatelessWidget {
           ],
         ),
       ),
+    )
     );
   }
 }

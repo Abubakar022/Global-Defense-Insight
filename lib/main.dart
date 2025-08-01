@@ -13,6 +13,7 @@ import 'package:global_defense_insight/presentation/Screens/discover_Screen.dart
 import 'package:global_defense_insight/presentation/Screens/home-Screen.dart';
 import 'package:global_defense_insight/presentation/Screens/news_detail_screen.dart';
 import 'package:global_defense_insight/presentation/Screens/onboarding.dart';
+import 'package:global_defense_insight/presentation/Screens/all_News.dart';
 import 'package:global_defense_insight/presentation/Screens/password.dart';
 import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 import 'package:global_defense_insight/presentation/Screens/sign_Up.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.system,
       theme: GAppTheme.lightTheme,
       darkTheme: GAppTheme.darkTheme,
       home: HomeScreen(),

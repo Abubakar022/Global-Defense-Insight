@@ -96,7 +96,10 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      
+        appBar: AppBar(
+        title: Text("Discover", style: textTheme.headlineLarge),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
       body: Obx(() {
         if (postController.postList.isEmpty &&
             postController.categoryMap.isEmpty) {
@@ -109,9 +112,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Discover",
-                    style: Theme.of(context).textTheme.headlineLarge),
-                Gspace.spaceVertical(5),
+                
+                
                 Text("News from All Over the World",
                     style: textTheme.headlineLarge!.copyWith(fontSize: 17)),
                 Gspace.spaceVertical(10),

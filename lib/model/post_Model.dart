@@ -8,6 +8,7 @@ class PostModel {
   final String? excerpt;
   final String? imageUrl;
   final List<int> categories;
+  final String? link; // ✅ New field
 
   PostModel({
     this.id,
@@ -17,6 +18,7 @@ class PostModel {
     this.excerpt,
     this.imageUrl,
     List<int>? categories,
+    this.link, // ✅ Add in constructor
   }) : categories = categories ?? [];
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class PostModel {
       excerpt: _parseHtmlString(json['excerpt']?['rendered']),
       imageUrl: json['jetpack_featured_media_url'],
       categories: _parseCategories(json['categories']),
+      link: json['link'], // ✅ Parse from JSON
     );
   }
 
@@ -49,16 +52,16 @@ class PostModel {
         'excerpt': {'rendered': excerpt},
         'jetpack_featured_media_url': imageUrl,
         'categories': categories,
+        'link': link, // ✅ Include in serialization
       };
 
-  // ✅ NEW: Formatted Date Getter (Safe, Clean)
   String get formattedDate {
     if (date == null) return '';
     try {
       final parsedDate = DateTime.parse(date!);
       return DateFormat('dd MMMM yyyy').format(parsedDate); // eg: 31 July 2025
     } catch (e) {
-      return date!; // fallback
+      return date!;
     }
   }
 }

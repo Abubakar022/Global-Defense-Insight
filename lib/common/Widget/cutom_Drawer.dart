@@ -5,6 +5,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:global_defense_insight/core/AppConstant/appContant.dart';
 import 'package:global_defense_insight/core/utils/theme/text_theme.dart';
+import 'package:global_defense_insight/presentation/Drawer-Screen/AdvertiseWithUs.dart';
+import 'package:global_defense_insight/presentation/Drawer-Screen/ContactUs.dart';
+import 'package:global_defense_insight/presentation/Drawer-Screen/SubmissionGuidelines.dart';
+import 'package:global_defense_insight/presentation/Drawer-Screen/about_Us.dart';
 import 'package:global_defense_insight/presentation/Screens/sign_In.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -23,6 +27,10 @@ class _DrawerWidegetState extends State<DrawerWideget> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textTheme =
         isDark ? GTextTheme.darkTextTheme : GTextTheme.lightTextTheme;
+// 🔁 Get current user from FirebaseAuth
+final user = FirebaseAuth.instance.currentUser;
+final displayName = user?.displayName ?? "Guest";
+final initial = displayName.isNotEmpty ? displayName[0].toUpperCase() : "U";
 
     return Padding(
       padding: EdgeInsets.only(top: Get.height / 25),
@@ -45,14 +53,14 @@ class _DrawerWidegetState extends State<DrawerWideget> {
                   style: textTheme.headlineLarge!.copyWith(fontSize: 18),
                 ),
                 subtitle: Text(
-                  "Umair Aslam",
+                  displayName,
                   style: textTheme.bodyLarge,
                 ),
                 leading: CircleAvatar(
                   radius: 22,
                   backgroundColor: Appcolor.blue,
                   child: Text(
-                    "U",
+                    initial,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -68,24 +76,42 @@ class _DrawerWidegetState extends State<DrawerWideget> {
 
             // Menu Items
             ListTile(
+              onTap: () {
+                Get.to(AboutUs());
+              },
               titleAlignment: ListTileTitleAlignment.center,
               title: Text("About Us", style: textTheme.bodyLarge),
               leading: Icon(Iconsax.people,
                   color: isDark ? Colors.white : Colors.black),
             ),
+
             ListTile(
-              titleAlignment: ListTileTitleAlignment.center,
-              title: Text("Contact Us", style: textTheme.bodyLarge),
-              leading: Icon(Icons.contact_support_outlined,
-                  color: isDark ? Colors.white : Colors.black),
-            ),
-            ListTile(
+              onTap: () {
+                Get.to(AdvertiseWithUs());
+              },
               titleAlignment: ListTileTitleAlignment.center,
               title: Text("Advertise With Us", style: textTheme.bodyLarge),
               leading: Icon(Icons.campaign,
                   color: isDark ? Colors.white : Colors.black),
             ),
-
+            ListTile(
+              onTap: () {
+                Get.to(SubmissionGuidelines());
+              },
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Text("Submission Guidelines", style: textTheme.bodyLarge),
+              leading: Icon(Icons.article,
+                  color: isDark ? Colors.white : Colors.black),
+            ),
+            ListTile(
+              onTap: () {
+                Get.to(ContactUs());
+              },
+              titleAlignment: ListTileTitleAlignment.center,
+              title: Text("Contact Us", style: textTheme.bodyLarge),
+              leading: Icon(Icons.contact_support_outlined,
+                  color: isDark ? Colors.white : Colors.black),
+            ),
             Spacer(), // Push logout to bottom
 
             Padding(

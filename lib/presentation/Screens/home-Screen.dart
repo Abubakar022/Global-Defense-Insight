@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:global_defense_insight/api/api_Call.dart';
 import 'package:global_defense_insight/common/Widget/cutom_Drawer.dart';
 import 'package:global_defense_insight/common/Widget/post_card_widget.dart';
-import 'package:global_defense_insight/controller/news_controller.dart';
+
 import 'package:global_defense_insight/core/AppConstant/appContant.dart';
 import 'package:global_defense_insight/core/utils/Helper/Gspace.dart';
 import 'package:global_defense_insight/core/utils/theme/text_theme.dart';

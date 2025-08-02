@@ -45,7 +45,7 @@ dependencies:
   firebase_auth: ^5.5.1
   cloud_firestore: ^5.6.5
   flutter_easyloading: ^3.0.5
-  firebase_messaging: ^15.2.4
+  firebase_messaging: ^15.2.10
   carousel_slider: ^5.0.0
   cached_network_image: ^3.4.1
   image_card: ^0.0.4
@@ -57,6 +57,13 @@ dependencies:
   shimmer: ^3.0.0
   html_unescape: ^2.0.0
   flutter_html: ^3.0.0
+  url_launcher: ^6.3.2
+  font_awesome_flutter: ^10.8.0
+  share_plus: ^11.0.0
+  flutter_local_notifications: ^19.4.0
+  workmanager: ^0.7.0
+  api_cache_manager: ^1.0.2
+  connectivity_plus: ^6.1.4
 
 dev_dependencies:
   flutter_test:

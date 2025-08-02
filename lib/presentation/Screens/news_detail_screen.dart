@@ -6,8 +6,9 @@ import 'package:global_defense_insight/core/utils/theme/text_theme.dart';
 import 'package:global_defense_insight/model/post_Model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:get/get.dart';
-import 'package:global_defense_insight/controller/news_controller.dart';
+
 import 'package:html_unescape/html_unescape.dart';
+import 'package:share_plus/share_plus.dart';
 
 class NewsDetailScreen extends StatelessWidget {
   final PostModel post;
@@ -26,11 +27,10 @@ class NewsDetailScreen extends StatelessWidget {
     final categoryId = post.categories.isNotEmpty ? post.categories.first : 0;
     final categoryName = postController.categoryMap[categoryId] ?? "News";
     final unescape = HtmlUnescape();
-     String decodedDescription = unescape.convert(post.content ?? '');
+    String decodedDescription = unescape.convert(post.content ?? '');
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -72,7 +72,35 @@ class NewsDetailScreen extends StatelessWidget {
                     backgroundColor: Appcolor.blue,
                     child: IconButton(
                       icon: Icon(Icons.share, color: Colors.white),
-                      onPressed: () => Navigator.pop(context),
+                    onPressed: () async {
+  final title = post.title ?? "Check out this article from GDI";
+  final link = post.link ?? "https://defensetalks.com";
+  final message = "$title\n\nRead more: $link\n\n📲 via Global Defense Insight";
+
+  final box = context.findRenderObject() as RenderBox?;
+
+  try {
+    final result = await SharePlus.instance.share(
+      ShareParams(
+        text: message,
+        subject: "Defense News from GDI",
+        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+      ),
+    );
+
+    // Optional: feedback
+    if (result.status == ShareResultStatus.success) {
+      print("✅ Shared successfully!");
+    } else {
+      print("❌ Share cancelled or failed.");
+    }
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Failed to share: $e')),
+    );
+  }
+},
+
                     ),
                   ),
                 ),
